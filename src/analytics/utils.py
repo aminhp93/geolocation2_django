@@ -1,6 +1,7 @@
 from django.contrib.gis.geoip2 import GeoIP2
 
 def get_client_ip(request):
+	print(request.META)
 	x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
 	if x_forwarded_for:
 		ip = x_forwarded_for.split(',')[0]

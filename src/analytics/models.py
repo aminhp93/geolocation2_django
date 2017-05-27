@@ -25,8 +25,10 @@ def user_logged_in_receiver(sender, request, *args, **kargs):
 	print(user)
 	print(request)
 	print(request.session)
-	ip_address = get_client_ip(request)
-	city_data = get_client_city_data(request)
+	# ip_address = get_client_ip(request)
+	ip_address = '72.14.207.99'
+	if ip_address:
+		city_data = get_client_city_data(ip_address)
 	session_key = request.session.session_key
 	UserSession.objects.create(user=user, 
 		session_key=session_key,
