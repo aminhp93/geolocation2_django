@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView as DefaultLoginView
+from django.contrib.auth.views import LoginView as DefaultLoginView, LogoutView as DefaultLogoutView
 from django.shortcuts import render
 from analytics.signals import user_logged_in
 
@@ -16,3 +16,6 @@ class LoginView(DefaultLoginView):
 		if self.request.user.is_authenticated:
 			user_logged_in.send(self.request.user, request=self.request)
 		return done_
+
+class LogoutView(DefaultLogoutView):
+	pass
