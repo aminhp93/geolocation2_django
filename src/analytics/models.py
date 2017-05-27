@@ -22,7 +22,7 @@ class UserSession(models.Model):
 def user_logged_in_receiver(sender, request, *args, **kargs):
 	user = sender
 
-	# UserSession.objects.create()
+	# UserSession.objects.create()	
 
 
 user_logged_in.connect(user_logged_in_receiver)
