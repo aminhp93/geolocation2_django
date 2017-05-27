@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 GEO_DEFAULT_IP = '72.14.207.99'
 
+YELP_CLIENT_ID = 'dE26izDXFldzCgO2QpNp3g'
+YELP_CLIENT_SECRET = 'u81sucWSTOuRw0R2cBiY3ebRydCfNPDXlZIfz7Z5lEDrzIJtcM3GlGTp5iDpBjpF'
+
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
@@ -43,8 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'accounts',
     'analytics',
+    'search'
 ]
 
 MIDDLEWARE = [
