@@ -1,4 +1,7 @@
 from django.contrib.gis.geoip2 import GeoIP2
+from django.conf import settings
+
+GEO_DEFAULT_IP = getattr(settings, "GEO_DEFAULT_IP", '72.14.207.99')
 
 def get_client_ip(request):
 	print(request.META)
@@ -7,7 +10,10 @@ def get_client_ip(request):
 		ip = x_forwarded_for.split(',')[0]
 	else:
 		ip = request.META.get("REMOTE_ADDR")
-	return ip
+	ip_address = ip or GEO_DEFAULT_IP
+	if str(ip_address) == '127.0.0.1':
+		ip_address = GEO_DEFAULT_IP
+	return ip_address
 
 def get_client_city_data(ip_address):
 	g = GeoIP2()
