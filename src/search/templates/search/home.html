@@ -1,9 +1,35 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Search</h1>
-{{ result }}
-
-{% for biz in result.businesses %}
-	<div>{{ biz.name }} | {{ biz.location.city }}</div>
-{% endfor %}
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Search</h1> {% for biz in result.businesses %}
+        <div>{{ biz.name }} | {{ biz.location.city }}</div>
+        {% endfor %}
+    </div>
+    <div class="col-sm-6">
+        <h3>My Google Maps Demo</h3>
+        <div id="map"></div>
+    </div>
+</div>
+<style>
+#map {
+    height: 400px;
+    width: 100%;
+}
+</style>
+<script>
+function initMap() {
+    var uluru = {
+        lat: -25.363,
+        lng: 131.044
+    };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+}
+</script>
 {% endblock %}
