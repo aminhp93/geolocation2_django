@@ -29,11 +29,11 @@ def get_token(request=None):
 		expires = r.json()['expires_in']
 		if request:
 			request.session['YELP_TOKEN'] = token
-			request.session['YELP_EXPIRES'] = timezone.now() + datetime.datetime(seconds=expires)
+			request.session['YELP_EXPIRES'] = "Test" #timezone.now() + datetime.datetime(seconds=expires)
 	return token
 
-def yelp_search(keyword='Food', location='Newport Beach'):
-	token = get_token()
+def yelp_search(keyword='Food', location='Newport Beach', request=None):
+	token = get_token(request=request)
 	headers = {"Authorization": "Bearer " + token}
 	params = {"term": keyword, "location": location}
 	r = requests.get(YELP_SEARCH_ENDPOINT, headers=headers, params=params)
