@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from .signals import user_logged_in
+
 # Create your models here.
 class UserSession(models.Model):
 	user 		= models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -16,3 +18,11 @@ class UserSession(models.Model):
 		if self.city_data:
 			return str(self.city_data)
 		return self.user.username
+
+def user_logged_in_receiver(sender, request, *args, **kargs):
+	user = sender
+
+	# UserSession.objects.create()
+
+
+user_logged_in.connect(user_logged_in_receiver)
