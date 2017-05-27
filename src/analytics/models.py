@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from .signals import user_logged_in
+from .utils import get_client_city_data, get_client_ip
 
 # Create your models here.
 class UserSession(models.Model):
@@ -24,8 +25,13 @@ def user_logged_in_receiver(sender, request, *args, **kargs):
 	print(user)
 	print(request)
 	print(request.session)
+	ip_address = get_client_ip(request)
+	city_data = get_client_city_data(request)
 	session_key = request.session.session_key
-	UserSession.objects.create(user=user, session_key=session_key)
+	UserSession.objects.create(user=user, 
+		session_key=session_key,
+		ip_address=ip_address,
+		city_data=city_data)
 
 	# UserSession.objects.create()	
 
