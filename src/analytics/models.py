@@ -21,6 +21,11 @@ class UserSession(models.Model):
 
 def user_logged_in_receiver(sender, request, *args, **kargs):
 	user = sender
+	print(user)
+	print(request)
+	print(request.session)
+	session_key = request.session.session_key
+	UserSession.objects.create(user=user, session_key=session_key)
 
 	# UserSession.objects.create()	
 
