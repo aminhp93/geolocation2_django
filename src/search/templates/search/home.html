@@ -1,7 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
     <div class="col-sm-6">
-        <h1>Search</h1> {% for biz in result.businesses %}
+        <h1>Food Search</h1>
+        <form action="">
+            <input type="text" name="loc" placeholder="location">
+            <input type="submit">
+        </form>
+        
+        {% for biz in result.businesses %}
         <div>{{ biz.name }} | {{ biz.location.city }}</div>
         {% endfor %}
     </div>
@@ -10,26 +16,59 @@
         <div id="map"></div>
     </div>
 </div>
-<style>
-#map {
-    height: 400px;
-    width: 100%;
-}
-</style>
+
 <script>
+var locations = [
+    {% for biz in result.businesses %}
+        {
+            lat: {{ biz.coordinates.latitude }},
+            lng: {{ biz.coordinates.longitude }},
+            name: '{{ biz.name }}',
+            address: '{{ biz.location.display_address.0 }} {{ biz.location.display_address.1 }}'
+        },
+    {% endfor %}
+]
+
+var map;
+var marker;
+var infoWindow;
+
 function initMap() {
     var uluru = {
-        lat: -25.363,
-        lng: 131.044
+        lat: {{ result.businesses.0.coordinates.latitude }},
+        lng: {{ result.businesses.0.coordinates.longitude }},
     };
+
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
+        zoom: 13,
         center: uluru
     });
-    var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
-    });
+    // var marker = new google.maps.Marker({
+    //     position: uluru,
+    //     map: map
+    // });
+    infoWindow = new google.maps.InfoWindow()
+
+    function createMarker(latlng, name, address){
+        var html = "<b>" + name + "</b><br>" + address;
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map
+        })
+
+        google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.setContent(html);
+            infoWindow.open(map, marker);
+        })
+    }
+
+    if (locations.length > 0){
+        for (var i=0; i < locations.length; i++){
+            var obj = locations[i];
+            var latlng = {lat: obj.lat, lng: obj.lng}
+            createMarker(latlng, obj.name, obj.address);
+        }
+    }
 }
 </script>
 {% endblock %}

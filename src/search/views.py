@@ -7,8 +7,12 @@ from .utils import yelp_search
 class SearchView(View):
 	def get(self, request, *args, **kawrgs):
 		items = []
-		q = request.GET.get('q')
-		location = request.session.get('CITY', 'Newport Beach')
+		q = request.GET.get('q', "food")
+		loc = request.GET.get('loc')
+		if not loc:
+			location = request.session.get('CITY', 'Newport Beach')
+		else:
+			location = loc
 		print(location, "LOCATION")
 		if q:
 			items = yelp_search(keyword='some food', location=location, request=request)
