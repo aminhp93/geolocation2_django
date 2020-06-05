@@ -2,7 +2,7 @@ aaargh==0.7.1
 appdirs==1.4.3
 certifi==2017.4.17
 chardet==3.0.3
-Django==1.11.1
+Django==1.11.29
 geodis==2.0.9
 geohasher==0.1.dev0
 geoip2==2.5.0
